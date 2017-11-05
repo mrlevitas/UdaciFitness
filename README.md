@@ -1,6 +1,6 @@
 #UdaciFitness
 
-Triathlon tracking react-native app from React nanodegree
+Triathlon tracking react-native app from Udacity's React Nanodegree.
 
 run `yarn start` to boot app & use guides below to connect VM or device:
 
