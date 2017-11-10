@@ -3,7 +3,9 @@ import { View, TouchableOpacity, Text, StyleSheet, Platform } from 'react-native
 import {
   getMetricMetaInfo,
   timeToString,
-  getDailyReminderValue
+  getDailyReminderValue,
+  clearLocalNotification,
+  setLocalNotification
 } from '../utils/helpers'
 import UdaciSlider from './UdaciSlider'
 import UdaciSteppers from './UdaciSteppers'
@@ -25,7 +27,6 @@ function SubmitBtn ({ onPress }) {
     </TouchableOpacity>
   )
 }
-
 class AddEntry extends Component {
   state = {
     run: 0,
@@ -34,7 +35,6 @@ class AddEntry extends Component {
     sleep: 0,
     eat: 0,
   }
-
   increment = (metric) => {
     const { max, step } = getMetricMetaInfo(metric)
 
@@ -47,7 +47,6 @@ class AddEntry extends Component {
       }
     })
   }
-
   decrement = (metric) => {
     this.setState((state) => {
       const count = state[metric] - getMetricMetaInfo(metric).step
@@ -58,13 +57,11 @@ class AddEntry extends Component {
       }
     })
   }
-
   slide = (metric, value) => {
     this.setState(() => ({
       [metric]: value
     }))
   }
-
   submit = () => {
     const key = timeToString()
     const entry = this.state
@@ -79,9 +76,9 @@ class AddEntry extends Component {
 
     submitEntry({ key, entry })
 
-    // Clear local notification
+    clearLocalNotification()
+      .then(setLocalNotification)
   }
-
   reset = () => {
     const key = timeToString()
 
@@ -93,7 +90,6 @@ class AddEntry extends Component {
 
     removeEntry(key)
   }
-
   toHome = () => {
     this.props.navigation.dispatch(NavigationActions.back({key: 'AddEntry'}))
   }
